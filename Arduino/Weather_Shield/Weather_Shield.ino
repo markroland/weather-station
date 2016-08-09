@@ -1,17 +1,3 @@
-/*
- Weather Shield Example
- By: Nathan Seidle
- SparkFun Electronics
- Date: June 10th, 2016
- License: This code is public domain but you buy me a beer if you use this and we meet someday (Beerware license).
-
- This example prints the current humidity, air pressure, temperature and light levels.
-
- The weather shield is capable of a lot. Be sure to checkout the other more advanced examples for creating
- your own weather station.
-
- */
-
 #include <Wire.h> //I2C needed for sensors
 #include "SparkFunMPL3115A2.h" //Pressure sensor - Search "SparkFun MPL3115" and install from Library Manager
 #include "SparkFunHTU21D.h" //Humidity sensor - Search "SparkFun HTU21D" and install from Library Manager
@@ -35,7 +21,6 @@ long lastSecond; //The millis counter to see when a second rolls by
 void setup()
 {
   Serial.begin(9600);
-  Serial.println("Weather Shield Example");
 
   pinMode(STAT_BLUE, OUTPUT); //Status LED Blue
   pinMode(STAT_GREEN, OUTPUT); //Status LED Green
@@ -54,7 +39,8 @@ void setup()
 
   lastSecond = millis();
 
-  Serial.println("Weather Shield online!");
+  // Serial.println("Weather_Shield v1.0.1");
+  // Serial.println("Humidity (%),Temp 1 (C),Temp 2 (F),Pressure (Pa),Light (V),V-in (V)");
 }
 
 void loop()
@@ -82,37 +68,31 @@ void loop()
     }
     else
     {
-      Serial.print("Humidity = ");
       Serial.print(humidity);
-      Serial.print("%,");
+      Serial.print(",");
       float temp_h = myHumidity.readTemperature();
-      Serial.print(" temp_h = ");
+      
       Serial.print(temp_h, 2);
-      Serial.print("C,");
-
-      //Check Pressure Sensor
-      float pressure = myPressure.readPressure();
-      Serial.print(" Pressure = ");
-      Serial.print(pressure);
-      Serial.print("Pa,");
+      Serial.print(",");
 
       //Check tempf from pressure sensor
       float tempf = myPressure.readTempF();
-      Serial.print(" temp_p = ");
       Serial.print(tempf, 2);
-      Serial.print("F,");
+      Serial.print(",");
+
+      //Check Pressure Sensor
+      float pressure = myPressure.readPressure();
+      Serial.print(pressure);
+      Serial.print(",");
 
       //Check light sensor
       float light_lvl = get_light_level();
-      Serial.print(" light_lvl = ");
       Serial.print(light_lvl);
-      Serial.print("V,");
+      Serial.print(",");
 
       //Check batt level
       float batt_lvl = get_battery_level();
-      Serial.print(" VinPin = ");
       Serial.print(batt_lvl);
-      Serial.print("V");
 
       Serial.println();
     }

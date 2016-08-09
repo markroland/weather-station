@@ -38,7 +38,19 @@ atmospheric temperature, pressure, humidity and light.
 [Sparkun Repository](https://github.com/sparkfun/Weather_Shield/tree/master/firmware/Weather_Shield_Basic)
 and upload it to the Arduino Uno.
 
-3) Open the Serial Monitor in the Arduino IDE. You should see data coming in.
+3) Try running the serial logging scripts (one at a time) to capture the data.
+
+Python:
+
+```
+python ./log-serial.py
+```
+
+Node:
+
+```
+node log-weather.js
+```
 
 # License
 
