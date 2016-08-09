@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Weather</title>
+        <style type="text/css">
+            html, body{
+                background-color: rgb(34,34,34);
+                margin: 0;
+                padding: 0;
+                font-family: Verdana, Arial, Sans-serif;
+                color: rgb(200,200,200);
+            }
+            #chartdiv{
+                width: 100%;
+                height: 600px;
+                margin-bottom: 1em;
+            }
+            #chartdiv a{
+                visibility: hidden;
+            }
+            #graph2{
+                width: 100%;
+                height: 600px;
+            }
+            #graph2 a{
+                visibility: hidden;
+            }
+        </style>
+
+        <!-- amCharts javascript sources -->
+        <script type="text/javascript" src="http://www.amcharts.com/lib/3/amcharts.js"></script>
+        <script type="text/javascript" src="http://www.amcharts.com/lib/3/serial.js"></script>
+        <script type="text/javascript" src="http://www.amcharts.com/lib/3/themes/black.js"></script>
+        <script type="text/javascript" src="http://www.amcharts.com/lib/3/plugins/dataloader/dataloader.min.js" ></script>
+
+        <!-- amCharts javascript code -->
+        <script type="text/javascript">
+
+            // Create chart
+            AmCharts.makeChart(
+                "chartdiv",
+                {
+                    "type": "serial",
+                    "categoryField": "log_time",
+                    "dataDateFormat": "YYYY-MM-DD HH:NN:SS",
+                    "theme": "black",
+                    "categoryAxis": {
+                        "minPeriod": "ss",
+                        "parseDates": true
+                    },
+                    "chartCursor": {
+                        "enabled": true,
+                        "categoryBalloonDateFormat": "JJ:NN:SS"
+                    },
+                    "chartScrollbar": {
+                        "enabled": false
+                    },
+                    "trendLines": [],
+                    "graphs": [
+                        {
+                            "id": "AmGraph-1",
+                            "title": "Temperature ℉",
+                            "valueField": "temperature",
+                            // "visibleInLegend": false,
+                            "valueAxis": "ValueAxis-1"
+                        },
+                        {
+                            "id": "AmGraph-2",
+                            "title": "Humidity",
+                            "valueField": "humidity",
+                            "valueAxis": "ValueAxis-2"
+                        }
+                    ],
+                    "guides": [],
+                    "valueAxes": [
+                        {
+                            "id": "ValueAxis-1",
+                            "title": "Temperature",
+                            "minimum": 75,
+                            "maximum": 85,
+                            "unit": "°F" // °F
+                        },
+                        {
+                            "id": "ValueAxis-2",
+                            "title": "Humidity",
+                            "position": "right",
+                            "minimum": 0,
+                            "maximum": 100,
+                            "unit": "%"
+                        }
+                    ],
+                    "allLabels": [],
+                    "balloon": {},
+                    "legend": {
+                        "enabled": true,
+                        "useGraphSettings": true
+                    },
+                    "titles": [
+                        {
+                            "id": "Title-1",
+                            "size": 15,
+                            "text": "Climate"
+                        }
+                    ],
+                    "dataLoader": {
+                        "url": "/weather-station/1/data.json",
+                        "format": "json",
+                        "reload": "300"
+                    }
+                }
+            );
+
+            // Create chart
+            AmCharts.makeChart(
+                "graph2",
+                {
+                    "type": "serial",
+                    "categoryField": "log_time",
+                    "dataDateFormat": "YYYY-MM-DD HH:NN:SS",
+                    "theme": "black",
+                    "categoryAxis": {
+                        "minPeriod": "ss",
+                        "parseDates": true
+                    },
+                    "chartCursor": {
+                        "enabled": true,
+                        "categoryBalloonDateFormat": "JJ:NN:SS"
+                    },
+                    "chartScrollbar": {
+                        "enabled": false
+                    },
+                    "trendLines": [],
+                    "graphs": [
+                        {
+                            "id": "AmGraph-2",
+                            "title": "Pressure",
+                            "valueField": "pressure",
+                            // "visibleInLegend": false,
+                            "valueAxis": "ValueAxis-1"
+                        },
+                        {
+                            "id": "AmGraph-3",
+                            "title": "Light",
+                            "valueField": "light",
+                            // "visibleInLegend": false,
+                            "valueAxis": "ValueAxis-2"
+                        }
+                    ],
+                    "guides": [],
+                    "valueAxes": [
+                        {
+                            "id": "ValueAxis-1",
+                            "title": "Pressure",
+                            "minimum": 96000, // 98442
+                            "maximum": 98000, // 103589
+                            "unit": "Pa"
+                        },
+                        {
+                            "id": "ValueAxis-2",
+                            "title": "Light",
+                            "position": "right",
+                            "minimum": 0.0,
+                            "maximum": 1.0,
+                            "unit": "%"
+                        }
+                    ],
+                    "allLabels": [],
+                    "balloon": {},
+                    "legend": {
+                        "enabled": true,
+                        "useGraphSettings": true
+                    },
+                    "titles": [
+                        {
+                            "id": "Title-1",
+                            "size": 15,
+                            "text": "Pressure and Light"
+                        }
+                    ],
+                    "dataLoader": {
+                        "url": "/weather-station/1/data.json",
+                        "format": "json",
+                        "reload": "300"
+                    }
+                }
+            );
+        </script>
+    </head>
+    <body>
+        <div id="chartdiv"></div>
+        <div id="graph2"></div>
+    </body>
+</html>

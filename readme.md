@@ -38,18 +38,12 @@ atmospheric temperature, pressure, humidity and light.
 [Sparkun Repository](https://github.com/sparkfun/Weather_Shield/tree/master/firmware/Weather_Shield_Basic)
 and upload it to the Arduino Uno.
 
-3) Try running the serial logging scripts (one at a time) to capture the data.
+3) Set up the external web server
 
-Python:
-
-```
-python ./log-serial.py
-```
-
-Node:
+4) Run the Python script on the Raspberry Pi to post the data to the external web server
 
 ```
-node log-weather.js
+python ./log-weather.py
 ```
 
 # License
