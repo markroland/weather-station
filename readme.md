@@ -42,6 +42,23 @@ and upload it to the Arduino Uno.
 
 4) Run the Python script on the Raspberry Pi to post the data to the external web server
 
+    A) Determine the Serial device name/port (e.g. /dev/ttyACM0). Typically the device will be
+       "/dev/ttyACM" followed by an integer in the order for which the device was attached, starting
+       with zero. So for example, if it was the first USB device attached, then the name would be
+       "/dev/ttyACM0".
+
+```sh
+ls /dev/tty*
+```
+
+OR
+
+```sh
+dmesg | grep tty
+```
+
+    B) Start script
+
 ```
 python ./log-weather.py
 ```
