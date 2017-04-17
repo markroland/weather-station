@@ -48,7 +48,10 @@ void loop()
   //Print readings every second
   if (millis() - lastSecond >= 1000)
   {
-    digitalWrite(STAT_BLUE, HIGH); //Blink stat LED
+    // Blink stat LED every 20 seconds 
+    if ( (int) (lastSecond / 1000) % 20 == 0){
+      digitalWrite(STAT_BLUE, HIGH);
+    }
 
     lastSecond += 1000;
 
