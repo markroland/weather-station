@@ -4,7 +4,7 @@ import json
 from datetime import datetime
 
 # Open serial connection
-ser = serial.Serial('/dev/ttyACM1', 9600)
+ser = serial.Serial('/dev/ttyACM0', 9600)
 
 # Open data file. Truncate. Don't buffer.
 f = open('./data/data.csv', 'w', 0)
