@@ -1,10 +1,4 @@
-# System Files
-.DS_Store
-.AppleDouble
-
-# Manual Project Files
-graphics
+.env
+graphics/
 log.txt
-
-# Generated Project Files
-node_modules
+node_modules/

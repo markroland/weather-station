@@ -1,13 +1,25 @@
 import serial
-import httplib
+import http.client
 import json
 from datetime import datetime
+import os
+from dotenv import load_dotenv
+
+# Configuration
+# Load environment variables from .env file
+load_dotenv()
+serial_port = os.getenv("SERIAL_PORT", "/dev/ttyACM0")
+domain = os.getenv("DOMAIN")
+station_id = int(os.getenv("STATION_ID", "1"))
 
 # Open serial connection
-ser = serial.Serial('/dev/ttyACM0', 9600)
+ser = serial.Serial(serial_port, 9600)
 
-# Open data file. Truncate. Don't buffer.
-f = open('./data/data.csv', 'w', 0)
+# Ensure the ./data directory exists
+os.makedirs('./data', exist_ok=True)
+
+# Open data file. Truncate. Use newline='' for CSV compatibility in Python 3
+f = open('./data/data.csv', 'w', newline='', encoding='utf-8')
 
 # Write header
 f.write("Time,Humidity (%),Temp 1 (C),Temp 2 (F),Pressure (Pa),Light (V),V-in (V)\n")
@@ -17,43 +29,46 @@ f.write("Time,Humidity (%),Temp 1 (C),Temp 2 (F),Pressure (Pa),Light (V),V-in (V
 # serial_line = ser.readline()
 
 # Do forever...
-while 1:
+while True:
 
     # Get current time
     now = datetime.now()
 
-    # Read from serial
-    serial_line = ser.readline()
+    # Read from serial (decode bytes to str)
+    serial_line = ser.readline().decode('utf-8').strip()
 
     # Set reading time
     reading_time = '{:%Y-%m-%d %H:%M:%S}'.format(now)
 
     # Define the data to log to
-    line = "%s,%s" % (reading_time, serial_line.replace("\r",""))
+    line = "%s,%s\n" % (reading_time, serial_line.replace("\r", ""))
 
     f.write(line)
+    f.flush()
 
     # Post to Weather Station API every minute
-    if '{:%S}'.format(now) == "00":
+    if domain != "" and '{:%S}'.format(now) == "00":
 
         # Split comma-separated line of data
-        line_parts = line.split(',')
+        line_parts = line.strip().split(',')
 
         # Create data object
         data = {
-            "station_id" : 1,
-            "log_time" : line_parts[0],
-            "temperature" : line_parts[3],
-            "humidity" : line_parts[1],
-            "pressure" : line_parts[4],
-            "light" : line_parts[5],
+            "station_id": station_id,
+            "log_time": line_parts[0],
+            "temperature": line_parts[3],
+            "humidity": line_parts[1],
+            "pressure": line_parts[4],
+            "light": line_parts[5],
         }
 
         http_body = json.dumps(data)
         http_headers = {"Content-type": "application/json"}
-        conn = httplib.HTTPConnection("project.markroland.com")
-        conn.request("POST", "/weather-station/1", http_body, http_headers)
+        conn = http.client.HTTPSConnection(domain)
+        conn.request("POST", "/" + str(station_id), http_body, http_headers)
         response = conn.getresponse()
+        # Optionally print or log response status
+        # print(response.status, response.reason)
 
 # Close file
 f.close()
