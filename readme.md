@@ -29,8 +29,16 @@ atmospheric temperature, pressure, humidity and light.
 
 ## Setup
 
+![Setup](weather%20station%20setup.jpg)
+
+*Note: This image shows an additional Arduino that is not required*
+
+**Steps:**
+
 1) Assemble the Weather Shield. Instructions may be found at
 [https://learn.sparkfun.com/tutorials/weather-shield-hookup-guide](https://learn.sparkfun.com/tutorials/weather-shield-hookup-guide).
+
+2) Connect the Arduino + Weather Shield to the Raspberry Pi using a USB Cable
 
 2) Download the "Weather Shield Basic" Arduino sketch from the
 [Sparkun Repository](https://github.com/sparkfun/Weather_Shield/tree/master/firmware/Weather_Shield_Basic)
